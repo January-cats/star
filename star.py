@@ -6,6 +6,7 @@ import sys
 from pygame.locals import QUIT, Rect, KEYDOWN,  K_w, K_a, K_s, K_d, K_SPACE, K_h
 from random import randint
 import copy
+import math
 
 from Entity import Entity
 
