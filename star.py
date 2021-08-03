@@ -204,9 +204,9 @@ class Bud(Entity):
             rect_image = Rect(self.x, self.y, self.width, self.height)
             pygame.draw.rect(SURFACE, color, rect_image, width=1)
 
-    def move(self, cave):
+    def move(self, field):
         self.y += self.speed
-        if cave.collision(self):
+        if field.collision(self):
             self.speed = self.speed * (-1)
         elif self.y <= 0 or self.y+self.height >= height:
             self.speed = self.speed * (-1)
@@ -228,7 +228,7 @@ class Bud(Entity):
         self.hit = True
         return
 
-class CavePart(Entity):
+class FieldPart(Entity):
     #地形パーツ
     def __init__(self, x, y, w, h):
         self.x = x
@@ -246,7 +246,7 @@ class CavePart(Entity):
         pygame.draw.rect(SURFACE, self.color, rect_image)
 
     def collision(self, en) -> bool:
-        #CavePart
+        #FieldPart
         x = en.x
         y = en.y
         w = en.width
@@ -258,22 +258,22 @@ class CavePart(Entity):
         return r
 
 
-class Cave():
+class Field():
     WALL = 80
     DWIDTH = 10 #分割された長方形の幅
-    #CavePartをまとめたクラス
+    #FieldPartをまとめたクラス
     def __init__(self):
         self.holes = [] # 現在画面に表示する地形を格納する、上のパーツと下のパーツに分けて配置（リスト）
         self.field = [] # あらかじめ設定されたフィールドを格納する
-        for i in range(Cave.WALL+1): #横に並んだ長方形で初期化
-            upper = CavePart(i*10, 0, Cave.DWIDTH, 50)
-            lower = CavePart(i*10, 550, Cave.DWIDTH, 50)
+        for i in range(Field.WALL+1): #横に並んだ長方形で初期化
+            upper = FieldPart(i*10, 0, Field.DWIDTH, 50)
+            lower = FieldPart(i*10, 550, Field.DWIDTH, 50)
             self.holes.append([upper, lower])
 
     def disp(self):
         SURFACE.fill((0, 0, 0)) #廃液を黒で染める
         for hole in self.holes: #地形の場所を緑で表示
-            hole[0].disp() #CavePartクラスのdisp()
+            hole[0].disp() #FieldPartクラスのdisp()
             hole[1].disp()
 
     def collision(self, entity):
@@ -337,7 +337,7 @@ def main():
     bar_wrapper = BarWrapper()
     machinegun_bar = Bar(20, 20, 100 ,20)
     missile_bar = Bar(20, 60, 100, 20)
-    cave = Cave()
+    field = Field()
     buds = [] #敵の一覧を保持するリスト
     stars = []
     bullets = []
@@ -416,7 +416,7 @@ def main():
 
         #敵機の移動
         for bud in buds:
-            bud.move(cave)
+            bud.move(field)
 
         #弾と敵の当たり判定
         for n, bullet in enumerate(bullets):
@@ -437,11 +437,11 @@ def main():
                 ship.hit_with(bud)
 
         #地形と自機の当たり判定
-        if cave.collision(ship):
+        if field.collision(ship):
             ship.hit_with()
 
         #描画
-        cave.disp()
+        field.disp()
 
         #ゲージの描画
         guns = ship.gun()
