@@ -229,7 +229,7 @@ class Bud(Entity):
         return
 
 class FieldPart(Entity):
-    #地形パーツ
+    #地形パーツだよ
     def __init__(self, x, y, w, h):
         self.x = x
         self.y = y
