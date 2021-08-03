@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-#ヒットボックスを当たったら垢にしたい
+#issue-1
 
 import pygame
 import sys
@@ -9,7 +9,6 @@ import copy
 
 from Entity import Entity
 
-#
 #init pygame
 pygame.init()
 pygame.key.set_repeat(5, 5)
@@ -229,29 +228,63 @@ class Bud(Entity):
         self.hit = True
         return
 
+class CavePart(Entity):
+    #地形パーツ
+    def __init__(self, x, y, w, h):
+        self.x = x
+        self.y = y
+        self.width = w
+        self.height = h
+        self.color = (0, 255, 0)
+        self.hp = 127
+
+    def move(self):
+        self.x -= 1
+
+    def disp(self):
+        rect_image = Rect(self.x, self.y, self.width, self.height)
+        pygame.draw.rect(SURFACE, self.color, rect_image)
+
+    def collision(self, en) -> bool:
+        #CavePart
+        x = en.x
+        y = en.y
+        w = en.width
+        h = en.height
+        r = ((x >= self.x and x <= self.x + self.width)or\
+        (x<self.x and self.x < x + w)) and \
+        ((y >= self.y and y <= self.y + self.height)or\
+        (y < self.y and self.y < y+h))
+        return r
+
+
 class Cave():
     WALL = 80
     DWIDTH = 10 #分割された長方形の幅
-    #背景を描画するクラス
+    #CavePartをまとめたクラス
     def __init__(self):
-        self.holes = []
+        self.holes = [] # 現在画面に表示する地形を格納する、上のパーツと下のパーツに分けて配置（リスト）
+        self.field = [] # あらかじめ設定されたフィールドを格納する
         for i in range(Cave.WALL+1): #横に並んだ長方形で初期化
-            self.holes.append(Rect(i*10, 50, Cave.DWIDTH, 500))
+            upper = CavePart(i*10, 0, Cave.DWIDTH, 50)
+            lower = CavePart(i*10, 550, Cave.DWIDTH, 50)
+            self.holes.append([upper, lower])
 
     def disp(self):
-        SURFACE.fill((0, 255, 0)) #廃液を緑で染める
-        for hole in self.holes: #リストの場所だけ黒抜き
-            pygame.draw.rect(SURFACE, (0, 0, 0), hole)
+        SURFACE.fill((0, 0, 0)) #廃液を黒で染める
+        for hole in self.holes: #地形の場所を緑で表示
+            hole[0].disp() #CavePartクラスのdisp()
+            hole[1].disp()
 
     def collision(self, entity):
-        #船の右と左側で判定する（それ以外に判定がない）
-        #エンティティの左側
-        index = int(entity.x / Cave.DWIDTH)
-        l = (entity.y <= self.holes[index].top) or (entity.y + entity.height >= self.holes[index].bottom)
-        #エンティティの右側
-        index = int((entity.x + entity.width) / Cave.DWIDTH)
-        r = (entity.y <= self.holes[index].top) or (entity.y + entity.height >= self.holes[index].bottom)
-        return (r or l)
+        #entityと、holesのなかのentityが一つでも接触しているかどうかで判定する
+        r = False
+        for hole in self.holes:
+            #上もしくは下の地形に接触しているかを確認
+            if hole[0].collision(entity) or hole[1].collision(entity):
+                r = True
+                break
+        return r
 
 
 class BarWrapper():
