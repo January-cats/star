@@ -13,10 +13,10 @@ from Entity import Entity
 #init pygame
 pygame.init()
 pygame.key.set_repeat(5, 5)
-width = 800
-height = 600 #ゲーム本編を描画するエリア
-info_area = 100 #ゲージ類を表示するエリア
-SURFACE = pygame.display.set_mode((width, height+info_area))
+WIDTH = 800
+HEIGHT = 600 #ゲーム本編を描画するエリア
+INFO_AREA = 100 #ゲージ類を表示するエリア
+SURFACE = pygame.display.set_mode((WIDTH, HEIGHT+INFO_AREA))
 FPSCLOCK = pygame.time.Clock()
 
 class Ship(Entity):
@@ -78,9 +78,9 @@ class Ship(Entity):
             self.shifty = -1 * self.speed
         if keydict['a'] and self.x > 0:
             self.shiftx = -1 * self.speed
-        if keydict['s'] and self.y + self.height < height:
+        if keydict['s'] and self.y + self.height < HEIGHT:
             self.shifty = self.speed
-        if keydict['d'] and self.x + self.width < width:
+        if keydict['d'] and self.x + self.width < WIDTH:
             self.shiftx = self.speed
 
         self.x += self.shiftx
@@ -142,7 +142,7 @@ class Bullet(Entity):
         self.x += self.speed
 
     def is_over_display(self):
-        return width <= self.x
+        return WIDTH <= self.x
 
 class Machinegun(Bullet):
     #弾クラスを継承したマシンガンクラス
@@ -171,8 +171,8 @@ class Missile(Bullet):
 class Star(Entity):
     def __init__(self):
         super().__init__()
-        self.x = randint(1, width)
-        self.y = randint(0, height)
+        self.x = randint(1, WIDTH)
+        self.y = randint(0, HEIGHT)
         self.xv = randint(1, 10)
         self.color = (255, 255, 255)
 
@@ -183,8 +183,8 @@ class Star(Entity):
     def move(self):
         self.x -= self.xv
         if self.x <= 0:
-            self.x = width
-            self.y = randint(0, height)
+            self.x = WIDTH
+            self.y = randint(0, HEIGHT)
             self.xv = randint(1, 10)
 
 class Bud(Entity):
@@ -209,7 +209,7 @@ class Bud(Entity):
         self.y += self.speed
         if field.collision(self):
             self.speed = self.speed * (-1)
-        elif self.y <= 0 or self.y+self.height >= height:
+        elif self.y <= 0 or self.y+self.height >= HEIGHT:
             self.speed = self.speed * (-1)
 
     def damage(self, num):
@@ -337,11 +337,11 @@ class Field():
 class BarWrapper():
     def __init__(self):
         self.bar_list = [] #Barインスタンスのリスト
-        self.info_area = info_area #情報エリアの高さ
+        self.info_area = INFO_AREA #情報エリアの高さ
 
     def disp(self):
         #情報エリア全体を黒で塗りつぶす
-        wrapper = Rect(0, height, width, info_area)
+        wrapper = Rect(0, HEIGHT, WIDTH, self.info_area)
         pygame.draw.rect(SURFACE, (0, 0, 0), wrapper)
         #ゲージそれぞれを描画する
         for bar in self.bar_list:
@@ -361,7 +361,7 @@ class BarWrapper():
 class Bar():
     def __init__(self, x, y, bwidth, bheight): #情報エリアのx, y
         self.x = x
-        self.y = height + y
+        self.y = HEIGHT + y
         self.width = bwidth #ゲージの幅
         self.height = bheight #ゲージの高さ
         self.num = 0 # 表示するデータ(%)
