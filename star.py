@@ -268,10 +268,17 @@ class Field():
         self.blocks = [] # 現在画面に表示する地形を格納する、上のパーツと下のパーツに分けて配置（リスト）
         self.field = [] # あらかじめ設定された地形情報を格納する、[上, 下]の二次元リスト
         self.progress = 0 #進んだFieldPartの数
+        self.tick = 0 #同じFieldPartにおいて、進んだフレーム数
         for i in range(Field.WALL+1): #横に並んだ長方形で初期化、上下それぞれ、スクロール用に右に余分に一つ作る
             upper = FieldPart(i*10, 0, Field.DWIDTH, 50)
             lower = FieldPart(i*10, 550, Field.DWIDTH, 50)
             self.blocks.append([upper, lower])
+
+    def get_progress(self):
+        return self.progress
+
+    def get_tick(self):
+        return self.tick
 
     def disp(self):
         SURFACE.fill((0, 0, 0)) #廃液を黒で染める
@@ -317,7 +324,7 @@ class Field():
     def scroll(self):
         #地形を左に動かす
         #読み込んだ右端まで言ったら止まるようにしたい
-        a = 0
+        self.tick += 1 #進んだフレームを1増やす
         if self.field[self.progress + Field.WALL] != 'EOF':
             #地形の終わりじゃないなら左に動かす
             for block in self.blocks:
@@ -332,6 +339,7 @@ class Field():
                     lower = FieldPart(800, self.field[self.progress + Field.WALL + 1][1], Field.DWIDTH, 600-self.field[self.progress + Field.WALL + 1][1])
                     self.blocks[Field.WALL] = [upper, lower]
                 self.progress += 1
+                self.tick = 0 # フレーム数を0に戻す
         return
 
 
@@ -517,12 +525,21 @@ def main():
             bud.disp(hitbox=True)
         ship.disp(hitbox=True)
 
+        #budの体力表示（一時的）
         font = pygame.font.SysFont(None, 36)
         s = ''
         for i in buds:
             s += ' {}'.format(i.hp)
         strimage = font.render("Bud: {}".format(s), True, (255, 255, 255))
         SURFACE.blit(strimage, (400, 20))
+
+        #progressとtickを表示
+        font = pygame.font.SysFont(None, 36)
+        strimage = font.render("Progress: {}".format(field.get_progress()), True, (255, 255, 255))
+        SURFACE.blit(strimage, (WIDTH/2, HEIGHT+20))
+        font = pygame.font.SysFont(None, 36)
+        strimage = font.render("tick: {}".format(field.get_tick()), True, (255, 255, 255))
+        SURFACE.blit(strimage, (WIDTH/2, HEIGHT+60))
 
         #画面更新
         pygame.display.update()
