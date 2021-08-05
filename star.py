@@ -8,6 +8,7 @@ from random import randint
 import copy
 import csv
 
+
 from Entity import Entity
 
 #init pygame
@@ -22,7 +23,7 @@ FPSCLOCK = pygame.time.Clock()
 
 class Ship(Entity):
     _mag = [
-        5, # machinegun
+        3, # machinegun
         15, # missile
     ]
     #武器ナンバ
@@ -40,7 +41,7 @@ class Ship(Entity):
         self.height = 25
         self.width = 45
         self.speed = 10 #自機の速さ
-        self.image = pygame.image.load("img/fighter4.png")
+        self.image = pygame.image.load("img/fighter5.png")
         self.magazines = copy.copy(Ship._mag)
         self.hit = False
 
