@@ -11,6 +11,7 @@ import csv
 from Entity import Entity
 
 #init pygame
+a = 0
 pygame.init()
 pygame.key.set_repeat(5, 5)
 WIDTH = 800
