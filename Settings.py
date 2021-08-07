@@ -9,3 +9,4 @@ HEIGHT = 600 #ゲーム本編を描画するエリア
 INFO_AREA = 100 #ゲージ類を表示するエリア
 
 SURFACE = pygame.display.set_mode((WIDTH, HEIGHT+INFO_AREA))
+FPSCLOCK = pygame.time.Clock()

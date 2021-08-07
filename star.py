@@ -8,12 +8,7 @@ import copy
 import csv
 
 from Entity import Entity
-from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE
-
-#init pygame
-pygame.init()
-pygame.key.set_repeat(5, 5)
-FPSCLOCK = pygame.time.Clock()
+from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK
 
 class Ship(Entity):
     _mag = [
@@ -413,6 +408,10 @@ class Bar():
         self.num = num
 
 def main():
+    #init pygame
+    pygame.init()
+    pygame.key.set_repeat(5, 5)
+
     #初期化
     ship = Ship() #自機
     floater1 = Floater(500, 300)
