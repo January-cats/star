@@ -21,7 +21,7 @@ def main():
     pygame.key.set_repeat(5, 5)
 
     #初期化
-    ship = Ship() #自機
+    ship = Ship(ship_type=2) #自機
     floater1 = Floater(500, 300)
     floater2 = Floater(300, 300)
     sinker = Sinker(500, 460)
