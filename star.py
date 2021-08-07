@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-#issue-1
 
 import pygame
 import sys
@@ -188,6 +187,35 @@ class Star(Entity):
             self.y = randint(0, HEIGHT)
             self.xv = randint(1, 10)
 
+class FieldPart(Entity):
+    #地形パーツだよ
+    def __init__(self, x, y, w, h):
+        self.x = x
+        self.y = y
+        self.width = w
+        self.height = h
+        self.color = (0, 255, 0)
+        self.hp = 127
+
+    def move(self):
+        self.x -= 1
+
+    def disp(self):
+        rect_image = Rect(self.x, self.y, self.width, self.height)
+        pygame.draw.rect(SURFACE, self.color, rect_image)
+
+    def collision(self, en) -> bool:
+        #FieldPart
+        x = en.x
+        y = en.y
+        w = en.width
+        h = en.height
+        r = ((x >= self.x and x <= self.x + self.width)or\
+        (x < self.x and self.x < x + w)) and \
+        ((y >= self.y and y <= self.y + self.height)or\
+        (y < self.y and self.y < y+h))
+        return r
+
 class Bud(Entity):
     def __init__(self, x, y):
         self.x = x
@@ -259,35 +287,6 @@ class Sinker(Bud):
 
     def move(self, field):
         self.x -= 1
-
-class FieldPart(Entity):
-    #地形パーツだよ
-    def __init__(self, x, y, w, h):
-        self.x = x
-        self.y = y
-        self.width = w
-        self.height = h
-        self.color = (0, 255, 0)
-        self.hp = 127
-
-    def move(self):
-        self.x -= 1
-
-    def disp(self):
-        rect_image = Rect(self.x, self.y, self.width, self.height)
-        pygame.draw.rect(SURFACE, self.color, rect_image)
-
-    def collision(self, en) -> bool:
-        #FieldPart
-        x = en.x
-        y = en.y
-        w = en.width
-        h = en.height
-        r = ((x >= self.x and x <= self.x + self.width)or\
-        (x < self.x and self.x < x + w)) and \
-        ((y >= self.y and y <= self.y + self.height)or\
-        (y < self.y and self.y < y+h))
-        return r
 
 
 class Field():
