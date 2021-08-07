@@ -7,31 +7,33 @@ import copy
 
 from Entity import Entity
 from Bullet import Machinegun, Missile
-from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE
+from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, SHIP_TYPE
 
 class Ship(Entity):
-    _mag = [
-        5, # machinegun
-        15, # missile
-    ]
     #武器ナンバ
     _gun = {
         'MACHINEGUN': 0,
         'MISSILE': 1
     }
 
-    def __init__(self):
+    def __init__(self, ship_type):
         super().__init__()
+        #自機の設定を取得
+        self.ship_type = "TYPE{}".format(ship_type)
+        self.ship_status = SHIP_TYPE[self.ship_type] #辞書でステータス情報を受け取る
+
         self.x = 100
         self.y = 300
         self.shiftx = 0
         self.shifty = 0
-        self.height = 25
-        self.width = 45
+        self.height = self.ship_status['height']
+        self.width = self.ship_status['width']
         self.speed = 10 #自機の速さ
-        self.image = pygame.image.load("img/fighter4.png")
-        self.magazines = copy.copy(Ship._mag)
+        self.image = pygame.image.load(self.ship_status['img'])
         self.hit = False
+
+        self._mag = self.ship_status['mag'] #マガジン設定（連射速度）の定数
+        self.magazines = copy.copy(self._mag)
 
     def disp(self, hitbox=False):
         SURFACE.blit(self.image, (self.x, self.y))
@@ -46,7 +48,7 @@ class Ship(Entity):
 
     def mag(self):
         #マガジン設定のリストを返す
-        return copy.copy(Ship._mag)
+        return copy.copy(self._mag)
 
     def gun(self):
         #クラス変数の辞書を返す
