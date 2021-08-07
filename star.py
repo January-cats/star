@@ -22,7 +22,7 @@ FPSCLOCK = pygame.time.Clock()
 
 class Ship(Entity):
     _mag = [
-        3, # machinegun
+        5, # machinegun
         15, # missile
     ]
     #武器ナンバ
@@ -40,7 +40,7 @@ class Ship(Entity):
         self.height = 25
         self.width = 45
         self.speed = 10 #自機の速さ
-        self.image = pygame.image.load("img/fighter5.png")
+        self.image = pygame.image.load("img/fighter4.png")
         self.magazines = copy.copy(Ship._mag)
         self.hit = False
 
@@ -325,7 +325,9 @@ class Field():
         #地形を左に動かす
         #読み込んだ右端まで言ったら止まるようにしたい
         self.tick += 1 #進んだフレームを1増やす
-        if self.field[self.progress + Field.WALL] != 'EOF':
+        if self.tick == 1024:
+            self.tick = 1 # オーバーフロー回避
+        if self.field[self.progress + Field.WALL] != 'EOF': #表示されている地形の一つ右を確認
             #地形の終わりじゃないなら左に動かす
             for block in self.blocks:
                 block[0].move()
