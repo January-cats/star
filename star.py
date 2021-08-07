@@ -92,10 +92,9 @@ def main():
         #弾の生成
         if keydict['SPACE']:
             bul = ship.shoot(type=ship.gun()['MACHINEGUN'])
+            mis = ship.shoot(type=ship.gun()['MISSILE'])
             if bul:
                 bullets.append(bul)
-        if keydict['h']:
-            mis = ship.shoot(type=ship.gun()['MISSILE'])
             if mis:
                 bullets.append(mis)
         ship.reload()
