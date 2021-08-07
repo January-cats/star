@@ -3,7 +3,7 @@
 
 import pygame
 import sys
-from pygame.locals import QUIT, Rect, KEYDOWN,  K_w, K_a, K_s, K_d, K_SPACE, K_h
+from pygame.locals import QUIT, Rect, KEYDOWN,  K_w, K_a, K_s, K_d, K_SPACE
 
 
 from Entity import Entity
@@ -21,7 +21,7 @@ def main():
     pygame.key.set_repeat(5, 5)
 
     #初期化
-    ship = Ship(ship_type=2) #自機
+    ship = Ship(ship_type=1) #自機
     floater1 = Floater(500, 300)
     floater2 = Floater(300, 300)
     sinker = Sinker(500, 460)
@@ -77,8 +77,6 @@ def main():
             keydict['d'] = True
         if key[K_SPACE]:
             keydict['SPACE'] = True
-        if key[K_h]:
-            keydict['h'] = True
         #イベントキューをかくにん
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -157,8 +155,8 @@ def main():
         for bullet in bullets:
             bullet.disp()
         for bud in buds:
-            bud.disp(hitbox=True)
-        ship.disp(hitbox=True)
+            bud.disp(hitbox=False)
+        ship.disp(hitbox=False)
 
         #budの体力表示（一時的）
         font = pygame.font.SysFont(None, 36)
