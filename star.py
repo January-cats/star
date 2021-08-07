@@ -194,7 +194,7 @@ class Bud(Entity):
         self.y = y
         self.width = 40
         self.height = 40
-        self.image = pygame.image.load("img/bud.png")
+        self.image = pygame.image.load("img/floater.png")
         self.hp = 100
         self.speed = 5
         self.hit = False
@@ -207,11 +207,7 @@ class Bud(Entity):
             pygame.draw.rect(SURFACE, color, rect_image, width=1)
 
     def move(self, field):
-        self.y += self.speed
-        if field.collision(self):
-            self.speed = self.speed * (-1)
-        elif self.y <= 0 or self.y+self.height >= HEIGHT:
-            self.speed = self.speed * (-1)
+        pass
 
     def damage(self, num):
         self.hp -= num
@@ -229,6 +225,40 @@ class Bud(Entity):
         #接触した
         self.hit = True
         return
+
+class Floater(Bud):
+    #浮いてる敵キャラ
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.width = 40
+        self.height = 40
+        self.image = pygame.image.load("img/floater.png")
+        self.hp = 100
+        self.speed = 5
+        self.hit = False
+
+    def move(self, field):
+        self.y += self.speed
+        if field.collision(self):
+            self.speed = self.speed * (-1)
+        elif self.y <= 0 or self.y+self.height >= HEIGHT:
+            self.speed = self.speed * (-1)
+
+class Sinker(Bud):
+    #地面にいる敵キャラ
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.width = 50
+        self.height = 40
+        self.image = pygame.image.load("img/sinker.png")
+        self.hp = 150
+        self.speed = 5
+        self.hit = False
+
+    def move(self, field):
+        self.x -= 1
 
 class FieldPart(Entity):
     #地形パーツだよ
@@ -390,8 +420,9 @@ class Bar():
 def main():
     #初期化
     ship = Ship() #自機
-    bud = Bud(500, 300)
-    bud2 = Bud(300, 300)
+    floater1 = Floater(500, 300)
+    floater2 = Floater(300, 300)
+    sinker = Sinker(500, 460)
     bar_wrapper = BarWrapper()
     machinegun_bar = Bar(20, 20, 100 ,20)
     missile_bar = Bar(20, 60, 100, 20)
@@ -404,8 +435,9 @@ def main():
         stars.append(star)
 
     #敵をリストに追加
-    buds.append(bud)
-    buds.append(bud2)
+    buds.append(floater1)
+    buds.append(floater2)
+    buds.append(sinker)
 
     #表示するゲージをリストに追加
     bar_wrapper.add(missile_bar)
