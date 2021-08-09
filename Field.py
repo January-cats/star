@@ -102,18 +102,18 @@ class Field():
         #地形を左に動かす
         #読み込んだ右端まで言ったら止まるようにしたい
         self.tick += 1 #進んだフレームを1増やす
-        if self.tick == 1024:
+        if self.tick == 1023:
             self.tick = 1 # オーバーフロー回避
         if self.field[self.progress + Field.WALL] != 'EOF': #表示されている地形の一つ右を確認
             #地形の終わりじゃないなら左に動かす
             for block in self.blocks:
-                block[0].move()
+                block[0].move() #ブロックを左へスクロールさせる
                 block[1].move() #上下のブロックを左に動かす
             if self.blocks[0][0].x + Field.DWIDTH <= 0: #一番左側のブロックが画面右側へ消えたら
                 for i in range(Field.WALL):
                     self.blocks[i] = self.blocks[i+1] #ブロックを左寄せ
                 if self.field[self.progress + Field.WALL + 1] != 'EOF':
-                    #新しい分のブロックを追加
+                    #新しい分のブロックをリストの右端に追加
                     upper = FieldPart(800, 0, Field.DWIDTH, self.field[self.progress + Field.WALL + 1][0])
                     lower = FieldPart(800, self.field[self.progress + Field.WALL + 1][1], Field.DWIDTH, 600-self.field[self.progress + Field.WALL + 1][1])
                     self.blocks[Field.WALL] = [upper, lower]

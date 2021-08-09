@@ -61,6 +61,7 @@ class Floater(Bud):
 
     def move(self, field):
         self.y += self.speed
+        self.x -= 1
         if field.collision(self):
             self.speed = self.speed * (-1)
         elif self.y <= 0 or self.y+self.height >= HEIGHT:

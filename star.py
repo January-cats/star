@@ -3,7 +3,7 @@
 
 import pygame
 import sys
-from pygame.locals import QUIT, Rect, KEYDOWN,  K_w, K_a, K_s, K_d, K_SPACE
+from pygame.locals import QUIT, KEYDOWN,  K_w, K_a, K_s, K_d, K_SPACE
 
 
 from Entity import Entity
@@ -155,8 +155,8 @@ def main():
         for bullet in bullets:
             bullet.disp()
         for bud in buds:
-            bud.disp(hitbox=False)
-        ship.disp(hitbox=False)
+            bud.disp(hitbox=True)
+        ship.disp(hitbox=True)
 
         #budの体力表示（一時的）
         font = pygame.font.SysFont(None, 36)
