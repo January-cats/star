@@ -52,12 +52,15 @@ class Field():
             self.blocks.append([upper, lower])
 
     def get_progress(self):
+        #progress変数を返す
         return self.progress
 
     def get_tick(self):
+        #tick変数を返す
         return self.tick
 
     def disp(self):
+        #インスタンスを描画する
         SURFACE.fill((0, 0, 0)) #廃液を黒で染める
         for block in self.blocks: #地形の場所を緑で表示
             block[0].disp() #FieldPartクラスのdisp()
