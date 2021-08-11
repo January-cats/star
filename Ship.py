@@ -22,20 +22,21 @@ class Ship(Entity):
         self.ship_type = "TYPE{}".format(ship_type)
         self.ship_status = SHIP_TYPE[self.ship_type] #辞書でステータス情報を受け取る
 
-        self.x = 100
-        self.y = 300
+        self.x = 100 #インスタンスのx座標
+        self.y = 300 #インスタンスのy座標
         self.shiftx = 0
         self.shifty = 0
-        self.height = self.ship_status['height']
-        self.width = self.ship_status['width']
+        self.height = self.ship_status['height'] #インスタンスの高さ
+        self.width = self.ship_status['width'] #インスタンスの幅
         self.speed = 10 #自機の速さ
-        self.image = pygame.image.load(self.ship_status['img'])
+        self.image = pygame.image.load(self.ship_status['img']) #インスタンスの画像
         self.hit = False
 
         self._mag = self.ship_status['mag'] #マガジン設定（連射速度）の定数
         self.magazines = copy.copy(self._mag)
 
     def disp(self, hitbox=False):
+        #Shipインスタンスを描画する、hitbox=Trueで当たり判定を可視化する
         SURFACE.blit(self.image, (self.x, self.y))
         if hitbox:
             color = (255, 0, 0) if self.hit else (0, 255, 0)
@@ -55,15 +56,17 @@ class Ship(Entity):
         return copy.copy(Ship._gun)
 
     def set_hit_default(self):
+        #hit変数をFalseに戻す
         self.hit = False
         return
 
     def hit_with(self, e=None):
-        #接触した
+        #別のエンティティと接触した時にhit変数をTrueにする
         self.hit = True
         return
 
     def move(self, keydict):
+        #Shipインスタンスの座標を動かす、keydictは押されたキーの情報
         self.shiftx = 0
         self.shifty = 0
         if keydict['w'] and self.y > 0:
@@ -80,6 +83,7 @@ class Ship(Entity):
         return
 
     def reload(self):
+        #Shipインスタンスのマガジンを再装填する
         mags = self.mag()
         for n, mag in enumerate(self.get_magazine()):
             if mag < mags[n]:
