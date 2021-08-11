@@ -3,13 +3,16 @@
 
 import pygame
 from pygame.locals import Rect
+from math import pi, sin, cos
 
 from Entity import Entity
 from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE
 
 class Bullet(Entity):
     #発射される弾のクラス
-    def __init__(self, x, y):
+    #斜めに弾を発射させるため、angleを追加
+    def __init__(self, x, y, angle=0):
+        #初期座標x, y 水平右向きを0度、垂直上向きを90度としたangle
         #初期化
         super().__init__()
         self.x = x
@@ -19,6 +22,7 @@ class Bullet(Entity):
         self.speed = 20
         self.image = None
         self.damage = 10
+        self.angle = angle * pi / 180 #ラジアンに変換
 
     def disp(self, hitbox=False):
         SURFACE.blit(self.image, (self.x, self.y))
@@ -28,15 +32,17 @@ class Bullet(Entity):
         return
 
     def move(self):
-        self.x += self.speed
+        #弾の座標を動かす
+        self.x = self.x + cos(self.angle)*self.speed
+        self.y = self.y - sin(self.angle)*self.speed
 
     def is_over_display(self):
         return WIDTH <= self.x
 
 class Machinegun(Bullet):
     #弾クラスを継承したマシンガンクラス
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, angle=0):
+        super().__init__(x, y, angle)
         self.speed = 20
         self.height = 5
         self.width = 5
@@ -45,8 +51,8 @@ class Machinegun(Bullet):
 
 class Missile(Bullet):
     #弾クラスを継承したミサイルクラス
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, angle=0):
+        super().__init__(x, y, angle)
         self.speed = 0
         self.height = 6
         self.width = 15
