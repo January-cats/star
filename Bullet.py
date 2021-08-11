@@ -25,6 +25,7 @@ class Bullet(Entity):
         self.angle = angle * pi / 180 #ラジアンに変換
 
     def disp(self, hitbox=False):
+        #Bulletインスタンスを描画する、hitbox=Trueで当たり判定を可視化する
         SURFACE.blit(self.image, (self.x, self.y))
         if hitbox:
             rect_image = Rect(self.x, self.y, self.width, self.height)

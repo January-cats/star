@@ -9,6 +9,7 @@ from Entity import Entity
 from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE
 
 class Star(Entity):
+    #背景の星のクラス
     def __init__(self):
         super().__init__()
         self.x = randint(1, WIDTH)

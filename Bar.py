@@ -8,6 +8,7 @@ from Entity import Entity
 from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE
 
 class BarWrapper():
+    #バーを描画するためのエリアのクラス
     def __init__(self):
         self.bar_list = [] #Barインスタンスのリスト
         self.info_area = INFO_AREA #情報エリアの高さ
@@ -25,13 +26,16 @@ class BarWrapper():
         self.bar_list.append(bar)
 
     def length(self):
+        #描画するバーの数を返す
         return len(self.bar_list)
 
     def delete(self, num):
+        #指定した番号のバーを削除する
         if 0 <= num and num < self.length():
             del self.bar_list[num]
 
 class Bar():
+    #バーそのもののクラス
     def __init__(self, x, y, bwidth, bheight): #情報エリアのx, y
         self.x = x
         self.y = HEIGHT + y
@@ -40,6 +44,7 @@ class Bar():
         self.num = 0 # 表示するデータ(%)
 
     def disp(self):
+        #バーを描画する
         outer = Rect(self.x, self.y, self.width, self.height)
         inner = Rect(self.x, self.y, self.num, self.height)
         pygame.draw.rect(SURFACE, (255, 255, 0), inner, width=0)
