@@ -9,6 +9,7 @@ WIDTH = 800
 HEIGHT = 600 #ゲーム本編を描画するエリア
 INFO_AREA = 100 #ゲージ類を表示するエリア
 FIELD_FILE = "ftest.csv" #読み込む地形ファイル
+SCROLL_SPEED = 2 #画面のスクロール速度
 
 #画像ディレクトリのパス
 IMG_DIR = "img/"

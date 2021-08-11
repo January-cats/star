@@ -6,7 +6,7 @@ from pygame.locals import Rect
 import csv
 
 from Entity import Entity
-from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE
+from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, SCROLL_SPEED
 
 class FieldPart(Entity):
     #地形パーツだよ
@@ -19,7 +19,7 @@ class FieldPart(Entity):
         self.hp = 127
 
     def move(self):
-        self.x -= 1
+        self.x -= SCROLL_SPEED #地形を左に動かす
 
     def disp(self):
         rect_image = Rect(self.x, self.y, self.width, self.height)
@@ -52,12 +52,15 @@ class Field():
             self.blocks.append([upper, lower])
 
     def get_progress(self):
+        #progress変数を返す
         return self.progress
 
     def get_tick(self):
+        #tick変数を返す
         return self.tick
 
     def disp(self):
+        #インスタンスを描画する
         SURFACE.fill((0, 0, 0)) #廃液を黒で染める
         for block in self.blocks: #地形の場所を緑で表示
             block[0].disp() #FieldPartクラスのdisp()
