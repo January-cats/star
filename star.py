@@ -150,6 +150,8 @@ def main():
         missile_bar.set((ship.get_magazine()[guns['MISSILE']]/ship.mag()[guns['MISSILE']])*100)
         bar_wrapper.disp() # ゲージ残量を描画
 
+        #ゲージと画面の境界線
+
         for star in stars:
             star.disp()
         for bullet in bullets:

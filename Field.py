@@ -49,7 +49,9 @@ class Field():
         for i in range(Field.WALL+1): #横に並んだ長方形で初期化、上下それぞれ、スクロール用に右に余分に一つ作る
             upper = FieldPart(i*10, 0, Field.DWIDTH, 50)
             lower = FieldPart(i*10, 550, Field.DWIDTH, 50)
-            self.blocks.append([upper, lower])
+            self.blocks.append([upper, lower]) #初期地形の初期化
+            self.field.append([-10, 610])#初期のフィールドを上下フリーにする
+
 
     def get_progress(self):
         #progress変数を返す
@@ -88,7 +90,7 @@ class Field():
                 return
             else:
                 #地形情報を追加
-                self.field = field
+                self.field += field
                 self.field.append('EOF') #リストの最後にEOF
         return
 
