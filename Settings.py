@@ -9,6 +9,7 @@ WIDTH = 800
 HEIGHT = 600 #ゲーム本編を描画するエリア
 INFO_AREA = 100 #ゲージ類を表示するエリア
 FIELD_FILE = "ftest.csv" #読み込む地形ファイル
+BUD_FILE = "btest.csv"
 SCROLL_SPEED = 2 #画面のスクロール速度
 
 #画像ディレクトリのパス
@@ -45,6 +46,10 @@ SINKER = {
     'width': 50,
     'height': 40,
     'img': IMG_DIR + "sinker.png"
+}
+BUD_TYPE={
+    1: FLOATER,
+    2: SINKER,
 }
 
 
