@@ -6,11 +6,12 @@ from pygame.locals import Rect
 
 from Entity import Entity
 from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, SCROLL_SPEED
-from Settings import FLOATER, SINKER
+from Settings import BUD_TYPE, FLOATER, SINKER
 
 
 class Bud(Entity):
     def __init__(self, x, y):
+        self.name = 'BUD'
         self.x = x
         self.y = y
         self.width = 40
@@ -19,6 +20,11 @@ class Bud(Entity):
         self.hp = 100
         self.speed = 5
         self.hit = False
+        self.num = 0
+
+    def __repr__(self):
+        r = '{}({}, {})'.format(self.name, self.x, self.y)
+        return r
 
     def disp(self, hitbox=False):
         #Budインスタンスを描画する、hitbox=Trueで当たり判定を可視化する
@@ -54,12 +60,14 @@ class Bud(Entity):
 class Floater(Bud):
     #浮いてる敵キャラ
     def __init__(self, x, y):
+        self.name = 'Floater'
+        self.num = 1 #bud番号
         self.x = x
         self.y = y
-        self.width = FLOATER['width']
-        self.height = FLOATER['height']
-        self.image = pygame.image.load(FLOATER['img'])
-        self.hp = FLOATER['hp']
+        self.width = BUD_TYPE[self.num]['width']
+        self.height = BUD_TYPE[self.num]['height']
+        self.image = pygame.image.load(BUD_TYPE[self.num]['img'])
+        self.hp = BUD_TYPE[self.num]['hp']
         self.speed = 5
         self.hit = False
 
@@ -74,12 +82,14 @@ class Floater(Bud):
 class Sinker(Bud):
     #地面にいる敵キャラ
     def __init__(self, x, y):
+        self.name = 'Sinker'
+        self.num = 2 #bud番号
         self.x = x
         self.y = y
-        self.width = SINKER['width']
-        self.height = SINKER['height']
-        self.image = pygame.image.load(SINKER['img'])
-        self.hp = SINKER['hp']
+        self.width = BUD_TYPE[self.num]['width']
+        self.height = BUD_TYPE[self.num]['height']
+        self.image = pygame.image.load(BUD_TYPE[self.num]['img'])
+        self.hp = BUD_TYPE[self.num]['hp']
         self.speed = 5
         self.hit = False
 
