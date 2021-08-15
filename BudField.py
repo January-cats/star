@@ -15,7 +15,7 @@ class BudField():
         self.bud_field = [] #あらかじめ設定されたbudの出現情報を格納するリスト
         #progressの順にソートし、出現させたものは削除していく
 
-    def get_bud_list(self):
+    def get_list(self):
         return self.bud_list
 
     def get_bud_field(self):
@@ -66,4 +66,10 @@ class BudField():
         #bud_listの中身を描画する
         for bud in self.bud_list:
             bud.disp(hitbox)
+        return
+
+    def move_all(self, field):
+        #bud_listの中身を全てmoveさせる
+        for bud in self.bud_list:
+            bud.move(field)
         return

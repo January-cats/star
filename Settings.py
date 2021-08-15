@@ -14,6 +14,10 @@ SCROLL_SPEED = 2 #画面のスクロール速度
 
 #画像ディレクトリのパス
 IMG_DIR = "img/"
+#弾の画像
+IMG_MACHINEGUN = IMG_DIR + "bullet.png"
+IMG_MISSILE = IMG_DIR + "missile.png"
+IMG_SINKER_BULLET = IMG_DIR + "sinker_bullet.png"
 #地形を除く各エンティティのステータス
 SHIP_TYPE = {
     'TYPE1': {
@@ -45,7 +49,8 @@ SINKER = {
     'hp': 150,
     'width': 50,
     'height': 40,
-    'img': IMG_DIR + "sinker.png"
+    'img': IMG_DIR + "sinker.png",
+    'mag': 50, #弾を出す感覚
 }
 BUD_TYPE={
     1: FLOATER,

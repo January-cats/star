@@ -14,6 +14,7 @@ from Bar import Bar, BarWrapper
 from Field import Field, FieldPart
 from Background import Star
 from BudField import BudField
+from BulletList import BulletList
 from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK, FIELD_FILE, BUD_FILE
 
 def main():
@@ -27,7 +28,8 @@ def main():
     machinegun_bar = Bar(20, 20, 100 ,20)
     missile_bar = Bar(20, 60, 100, 20)
     stars = []
-    bullets = []
+    bullet_list = BulletList() #自機の弾リスト
+    bud_bullet_list = BulletList() #敵の弾リスト
     fps = 20
     for i in range(1, 30):
         star = Star()
@@ -57,7 +59,7 @@ def main():
             'h': False
             }
         ship.set_hit_default()
-        for bud in bud_field.get_bud_list():
+        for bud in bud_field.get_list():
             bud.set_hit_default()
 
         #押されたキーを取得
@@ -87,24 +89,35 @@ def main():
             bul = ship.shoot(type=ship.gun()['MACHINEGUN'])
             mis = ship.shoot(type=ship.gun()['MISSILE'])
             if bul:
-                bullets.append(bul)
+                bullet_list.add(bul)
             if mis:
-                bullets.append(mis)
+                bullet_list.add(mis)
         ship.reload()
+
+        #budの射撃
+        for bud in bud_field.get_list():
+            bul = bud.shoot(ship)
+            if bul:
+                bud_bullet_list.add(bul)
+            bud.reload()
 
         #星の移動
         for star in stars:
             star.move()
 
         #弾の移動
-        for n, bullet in enumerate(bullets):
+        for n, bullet in enumerate(bullet_list.get_list()):
             bullet.move()
             if bullet.is_over_display():
-                del bullets[n]
+                bullet_list.delete(n)
+
+        for n, bullet in enumerate(bud_bullet_list.get_list()):
+            bullet.move()
+            if bullet.is_over_display():
+                bullet_list.delete(n)
 
         #敵機の移動
-        for bud in bud_field.get_bud_list():
-            bud.move(field)
+        bud_field.move_all(field)
 
         #地形の移動
         field.scroll()
@@ -116,25 +129,25 @@ def main():
         #-----------当たり判定のチェック----------
 
         #弾と敵の当たり判定
-        for n, bullet in enumerate(bullets):
-            for bud in bud_field.get_bud_list():
+        for n, bullet in enumerate(bullet_list.get_list()):
+            for bud in bud_field.get_list():
                 if bud.collision(bullet):
                     bud.damage(bullet.get_damege())
                     bud.hit_with(bullet)
-                    del bullets[n]
+                    bullet_list.delete(n)
 
         #弾と地形の当たり判定
-        for n, bullet in enumerate(bullets):
+        for n, bullet in enumerate(bullet_list.get_list()):
             if field.collision(bullet):
-                del bullets[n]
+                bullet_list.delete(n)
 
         #敵の体力が無くなったら消滅させる
-        for n, bud in enumerate(bud_field.get_bud_list()):
+        for n, bud in enumerate(bud_field.get_list()):
             if bud.is_dead():
                 bud_field.delete(n)
 
         #敵と自機の当たり判定
-        for bud in bud_field.get_bud_list():
+        for bud in bud_field.get_list():
             if ship.collision(bud):
                 ship.hit_with(bud)
 
@@ -157,15 +170,15 @@ def main():
 
         for star in stars:
             star.disp()
-        for bullet in bullets:
-            bullet.disp()
+        bullet_list.disp_all()
+        bud_bullet_list.disp_all()
         bud_field.disp_all(hitbox=True)
         ship.disp(hitbox=True)
 
         #budの体力表示（一時的）
         font = pygame.font.SysFont(None, 36)
         s = ''
-        for i in bud_field.get_bud_list():
+        for i in bud_field.get_list():
             s += ' {}'.format(i.hp)
         strimage = font.render("Bud: {}".format(s), True, (255, 255, 255))
         SURFACE.blit(strimage, (400, 20))
