@@ -114,7 +114,7 @@ def main():
         for n, bullet in enumerate(bud_bullet_list.get_list()):
             bullet.move()
             if bullet.is_over_display():
-                bullet_list.delete(n)
+                bud_bullet_list.delete(n)
 
         #敵機の移動
         bud_field.move_all(field)
