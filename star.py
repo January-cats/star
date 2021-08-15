@@ -170,9 +170,9 @@ def main():
 
         for star in stars:
             star.disp()
+        bud_field.disp_all(hitbox=True)
         bullet_list.disp_all()
         bud_bullet_list.disp_all()
-        bud_field.disp_all(hitbox=True)
         ship.disp(hitbox=True)
 
         #budの体力表示（一時的）

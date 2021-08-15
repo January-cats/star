@@ -41,8 +41,8 @@ class Bud(Entity):
 
     def get_angle(self, entity):
         #別のエンティティの中心への角度を取得する
-        x = (entity.x + 0.5 * entity.width) - self.x
-        y = (entity.y + 0.5 * entity.height) - self.y
+        x = (entity.x + 0.5 * entity.width) - (self.x + 0.5 * self.width)
+        y = (entity.y + 0.5 * entity.height) - (self.y + 0.5 * self.height)
         rad = math.atan2(y, x)
         deg = (180 / math.pi) * rad
         return -1 * deg
@@ -124,6 +124,6 @@ class Sinker(Bud):
         if self.magazine >= self.mag():
             self.magazine -= self.mag()
             angle = self.get_angle(ship)
-            bul = SinkerBullet(self.x, self.y, angle)
+            bul = SinkerBullet(self.x + 0.5 * self.width, self.y + 0.5 * self.height, angle)
             return bul
         return None
