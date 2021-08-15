@@ -70,6 +70,9 @@ class BudField():
 
     def move_all(self, field):
         #bud_listの中身を全てmoveさせる
-        for bud in self.bud_list:
+        #左端まで到達したものは削除する
+        for n, bud in enumerate(self.bud_list):
             bud.move(field)
+            if bud.x + bud.width < 0:
+                self.delete(n)
         return
