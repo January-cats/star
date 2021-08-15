@@ -39,7 +39,10 @@ class Bullet(Entity):
         self.y = self.y - sin(self.angle)*self.speed
 
     def is_over_display(self):
-        return WIDTH <= self.x
+        #画面外に出たらTrueを返す
+        r =  (self.x + self.width < 0) or (WIDTH < self.x)\
+            or (self.y + self.height < 0) or (HEIGHT < self.y)
+        return r
 
 class Machinegun(Bullet):
     #弾クラスを継承したマシンガンクラス

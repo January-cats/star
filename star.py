@@ -15,7 +15,7 @@ from Field import Field, FieldPart
 from Background import Star
 from BudField import BudField
 from BulletList import BulletList
-from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK, FIELD_FILE, BUD_FILE
+from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK, FIELD_FILE, BUD_FILE, HITBOX
 
 def main():
     #init pygame
@@ -170,10 +170,10 @@ def main():
 
         for star in stars:
             star.disp()
-        bud_field.disp_all(hitbox=True)
+        bud_field.disp_all(hitbox=HITBOX)
         bullet_list.disp_all()
         bud_bullet_list.disp_all()
-        ship.disp(hitbox=True)
+        ship.disp(hitbox=HITBOX)
 
         #budの体力表示（一時的）
         font = pygame.font.SysFont(None, 36)
