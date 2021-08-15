@@ -113,6 +113,8 @@ def main():
         if field.get_tick() == 0:
             bud_field.spawn(field.get_progress())
 
+        #-----------当たり判定のチェック----------
+
         #弾と敵の当たり判定
         for n, bullet in enumerate(bullets):
             for bud in bud_field.get_bud_list():
@@ -140,7 +142,9 @@ def main():
         if field.collision(ship):
             ship.hit_with()
 
-        #描画
+        #--------------各要素の描画-----------------
+
+        #地形を描画
         field.disp()
 
         #ゲージの描画
@@ -173,6 +177,8 @@ def main():
         font = pygame.font.SysFont(None, 36)
         strimage = font.render("tick: {}".format(field.get_tick()), True, (255, 255, 255))
         SURFACE.blit(strimage, (WIDTH/2, HEIGHT+60))
+
+        #---------画面更新--------------
 
         #画面更新
         pygame.display.update()
