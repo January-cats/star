@@ -3,7 +3,7 @@
 
 import pygame
 import sys
-from pygame.locals import QUIT, KEYDOWN,  K_w, K_a, K_s, K_d, K_SPACE
+from pygame.locals import QUIT, KEYDOWN,  K_w, K_a, K_s, K_d, K_h, K_SPACE
 
 
 from Entity import Entity
@@ -20,7 +20,7 @@ from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK, FIELD_FILE, BU
 def main():
     #init pygame
     pygame.init()
-    pygame.key.set_repeat(5, 5)
+    pygame.key.set_repeat(5000, 5)
 
     #初期化
     ship = Ship(ship_type=1) #自機
@@ -48,16 +48,26 @@ def main():
     bud_field = BudField() #budを管理するクラスのインスタンス
     bud_field.load(BUD_FILE)
 
+    #サブウェポン
+    subweapon_change = False
+
+    keydict = {
+        'w': False,
+        'a': False,
+        's': False,
+        'd': False,
+        'SPACE': False,
+        'h': False
+        }
+
     while True:
         #初期化
-        keydict = {
-            'w': False,
-            'a': False,
-            's': False,
-            'd': False,
-            'SPACE': False,
-            'h': False
-            }
+        keydict['w'] = False
+        keydict['a'] = False
+        keydict['s'] = False
+        keydict['d'] = False
+        keydict['SPACE'] = False
+
         ship.set_hit_default()
         for bud in bud_field.get_list():
             bud.set_hit_default()
@@ -74,6 +84,12 @@ def main():
             keydict['d'] = True
         if key[K_SPACE]:
             keydict['SPACE'] = True
+        #hキーが押された時に一回だけ動作する
+        if not key[K_h]:
+            keydict['h'] = False
+        elif not keydict['h']:
+            keydict['h'] = True
+            ship.change_subweapon() #武器の切り替え
         #イベントキューをかくにん
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -87,13 +103,12 @@ def main():
         #弾の生成
         if keydict['SPACE']:
             bul = ship.shoot(type=ship.gun()['MACHINEGUN'])
-            mis = ship.shoot(type=ship.gun()['MISSILE'])
-            dmis = ship.shoot(type=ship.gun()['DOWN_MISSILE'])
-            if bul:
-                bullet_list.add(bul)
-            if mis:
+            bullet_list.add(bul)
+            if ship.get_subweapon() == 1:
+                mis = ship.shoot(type=ship.gun()['MISSILE'])
                 bullet_list.add(mis)
-            if dmis:
+            if ship.get_subweapon() == 2:
+                dmis = ship.shoot(type=ship.gun()['DOWN_MISSILE'])
                 bullet_list.add(dmis)
         ship.reload()
 
@@ -197,7 +212,7 @@ def main():
         strimage = font.render("Progress: {}".format(field.get_progress()), True, (255, 255, 255))
         SURFACE.blit(strimage, (WIDTH/2, HEIGHT+20))
         font = pygame.font.SysFont(None, 36)
-        strimage = font.render("tick: {}".format(field.get_tick()), True, (255, 255, 255))
+        strimage = font.render("tick: {}".format(ship.get_subweapon()), True, (255, 255, 255))
         SURFACE.blit(strimage, (WIDTH/2, HEIGHT+60))
 
         #---------画面更新--------------

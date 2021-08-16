@@ -33,6 +33,7 @@ class Ship(Entity):
         self.image = pygame.image.load(self.ship_status['img']) #インスタンスの画像
         self.hit = False
         self.hp = 100
+        self.subweapon = 1 #マシンガン+サブウェポンに使う番号
 
         self._mag = self.ship_status['mag'] #マガジン設定（連射速度）の定数
         self.magazines = copy.copy(self._mag)
@@ -48,6 +49,26 @@ class Ship(Entity):
     def get_magazine(self) -> int:
         #現在のマガジンインスタンスを返す
         return self.magazines
+
+    def get_subweapon(self) -> int:
+        #現在のサブウェポン番号を返す
+        return self.subweapon
+
+    def set_subweapon(self, num):
+        #指定した番号をsubweaponに代入する
+        self.subweapon = num
+        return
+
+    def change_subweapon(self):
+        #サブウェポンを切り替える
+        subw = self.get_subweapon()
+        subw += 1 #値を1増やす
+        if subw in self.gun().values():
+            #増やした値が武器ナンバに含まれているかを確認
+            self.set_subweapon(subw)
+        else:
+            #含まれていないなら1に戻す
+            self.set_subweapon(1)
 
     def mag(self):
         #マガジン設定のリストを返す
@@ -71,7 +92,6 @@ class Ship(Entity):
         #ダメージを受ける
         self.hp -= num
         return
-
 
     def move(self, keydict):
         #Shipインスタンスの座標を動かす、keydictは押されたキーの情報
