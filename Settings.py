@@ -36,7 +36,7 @@ SHIP_TYPE = {
         'width': 50,
         'height': 20,
         'img': IMG_DIR + "fighter5.png",
-        'mag': [3, 25] #machinegun, missile
+        'mag': [4, 25] #machinegun, missile
     }
 }
 FLOATER = {
