@@ -65,8 +65,10 @@ class Missile(Bullet):
         self.image = pygame.image.load(IMG_MISSILE)
 
     def move(self):
+        max = 30
         self.x += self.speed
-        self.speed = self.speed + 3
+        if self.speed < max:
+            self.speed = self.speed + 3
         return
 
 class SinkerBullet(Bullet):

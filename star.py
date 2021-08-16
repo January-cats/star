@@ -15,7 +15,7 @@ from Field import Field, FieldPart
 from Background import Star
 from BudField import BudField
 from BulletList import BulletList
-from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK, FIELD_FILE, BUD_FILE, HITBOX
+from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK, FIELD_FILE, BUD_FILE, HITBOX, FPSTICK
 
 def main():
     #init pygame
@@ -30,7 +30,7 @@ def main():
     stars = []
     bullet_list = BulletList() #自機の弾リスト
     bud_bullet_list = BulletList() #敵の弾リスト
-    fps = 20
+    fps = FPSTICK
     for i in range(1, 30):
         star = Star()
         stars.append(star)
@@ -106,11 +106,12 @@ def main():
             star.move()
 
         #弾の移動
+        #自機
         for n, bullet in enumerate(bullet_list.get_list()):
             bullet.move()
             if bullet.is_over_display():
                 bullet_list.delete(n)
-
+        #敵
         for n, bullet in enumerate(bud_bullet_list.get_list()):
             bullet.move()
             if bullet.is_over_display():
