@@ -52,7 +52,7 @@ SINKER = {
     'width': 50,
     'height': 40,
     'img': IMG_DIR + "sinker.png",
-    'mag': 10, #弾を出す感覚
+    'mag': 40, #弾を出す感覚
 }
 BUD_TYPE={
     1: FLOATER,
