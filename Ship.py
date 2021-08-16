@@ -31,6 +31,7 @@ class Ship(Entity):
         self.speed = 10 #自機の速さ
         self.image = pygame.image.load(self.ship_status['img']) #インスタンスの画像
         self.hit = False
+        self.hp = 100
 
         self._mag = self.ship_status['mag'] #マガジン設定（連射速度）の定数
         self.magazines = copy.copy(self._mag)
@@ -64,6 +65,12 @@ class Ship(Entity):
         #別のエンティティと接触した時にhit変数をTrueにする
         self.hit = True
         return
+
+    def do_damage(self, num):
+        #ダメージを受ける
+        self.hp -= num
+        return
+
 
     def move(self, keydict):
         #Shipインスタンスの座標を動かす、keydictは押されたキーの情報
