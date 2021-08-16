@@ -17,7 +17,9 @@ class BulletList():
         return self.bullet_list
 
     def add(self, bullet):
-        self.bullet_list.append(bullet)
+        if bullet:
+            #Noneかどうかをチェックする
+            self.bullet_list.append(bullet)
         return
 
     def delete(self, num):
