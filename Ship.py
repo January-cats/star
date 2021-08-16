@@ -6,14 +6,15 @@ from pygame.locals import Rect
 import copy
 
 from Entity import Entity
-from Bullet import Machinegun, Missile
+from Bullet import Machinegun, Missile, DownMissile
 from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, SHIP_TYPE
 
 class Ship(Entity):
     #武器ナンバ
     _gun = {
         'MACHINEGUN': 0,
-        'MISSILE': 1
+        'MISSILE': 1,
+        'DOWN_MISSILE': 2
     }
 
     def __init__(self, ship_type):
@@ -115,6 +116,9 @@ class Ship(Entity):
                     self.magazines[type] -= self.mag()[type]
                 elif type == 1:
                     bul = Missile(x+w/2, y+h)
+                    self.magazines[type] -= self.mag()[type]
+                elif type == 2:
+                    bul = DownMissile(x+w/2, y+h)
                     self.magazines[type] -= self.mag()[type]
                 return bul
             else:

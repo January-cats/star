@@ -88,10 +88,13 @@ def main():
         if keydict['SPACE']:
             bul = ship.shoot(type=ship.gun()['MACHINEGUN'])
             mis = ship.shoot(type=ship.gun()['MISSILE'])
+            dmis = ship.shoot(type=ship.gun()['DOWN_MISSILE'])
             if bul:
                 bullet_list.add(bul)
             if mis:
                 bullet_list.add(mis)
+            if dmis:
+                bullet_list.add(dmis)
         ship.reload()
 
         #budの射撃

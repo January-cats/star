@@ -20,6 +20,7 @@ IMG_DIR = "img/"
 IMG_MACHINEGUN = IMG_DIR + "bullet.png"
 IMG_MISSILE = IMG_DIR + "missile.png"
 IMG_SINKER_BULLET = IMG_DIR + "sinker_bullet.png"
+IMG_DOWN_MISSILE = IMG_DIR + "downmissile.png"
 #地形を除く各エンティティのステータス
 SHIP_TYPE = {
     'TYPE1': {
@@ -28,7 +29,7 @@ SHIP_TYPE = {
         'width': 45,
         'height': 25,
         'img': IMG_DIR + "fighter4.png",
-        'mag': [5, 15] #machinegun, missile
+        'mag': [5, 15, 15] #machinegun, missile, downmissile
     },
     'TYPE2': {
         #自機タイプ2
@@ -36,7 +37,7 @@ SHIP_TYPE = {
         'width': 50,
         'height': 20,
         'img': IMG_DIR + "fighter5.png",
-        'mag': [4, 25] #machinegun, missile
+        'mag': [4, 25, 25] #machinegun, missile, downmissile
     }
 }
 FLOATER = {

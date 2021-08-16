@@ -7,7 +7,7 @@ from math import pi, sin, cos
 
 from Entity import Entity
 from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE
-from Settings import IMG_MISSILE, IMG_MACHINEGUN, IMG_SINKER_BULLET
+from Settings import IMG_MISSILE, IMG_MACHINEGUN, IMG_SINKER_BULLET, IMG_DOWN_MISSILE
 
 class Bullet(Entity):
     #発射される弾のクラス
@@ -70,6 +70,16 @@ class Missile(Bullet):
         if self.speed < max:
             self.speed = self.speed + 3
         return
+
+class DownMissile(Bullet):
+    #弾クラスを継承した斜め下にすすむミサイルクラス
+    def __init__(self, x, y):
+        super().__init__(x, y, angle=-45)
+        self.speed = 10
+        self.height = 6
+        self.width = 15
+        self.damage = 20
+        self.image = pygame.image.load(IMG_DOWN_MISSILE)
 
 class SinkerBullet(Bullet):
     def __init__(self, x, y, angle=0):
