@@ -30,5 +30,7 @@ class BulletList():
             bul.disp()
 
     def move_all(self):
-        for bul in self.bullet_list:
+        for n, bul in enumerate(self.bullet_list):
             bul.move()
+            if bul.is_over_display():
+                self.delete(n)

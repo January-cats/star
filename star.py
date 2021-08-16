@@ -106,16 +106,8 @@ def main():
             star.move()
 
         #弾の移動
-        #自機
-        for n, bullet in enumerate(bullet_list.get_list()):
-            bullet.move()
-            if bullet.is_over_display():
-                bullet_list.delete(n)
-        #敵
-        for n, bullet in enumerate(bud_bullet_list.get_list()):
-            bullet.move()
-            if bullet.is_over_display():
-                bud_bullet_list.delete(n)
+        bullet_list.move_all() #自機
+        bud_bullet_list.move_all() #敵
 
         #敵機の移動
         bud_field.move_all(field)
@@ -137,10 +129,23 @@ def main():
                     bud.hit_with(bullet)
                     bullet_list.delete(n)
 
+        #敵の弾と自機との当たり判定
+        for n, bullet in enumerate(bud_bullet_list.get_list()):
+            if ship.collision(bullet):
+                #自機が敵の弾と接触していたら
+                ship.do_damage(bullet.get_damege())
+                ship.hit_with(bullet)
+                bud_bullet_list.delete(n)
+
         #弾と地形の当たり判定
         for n, bullet in enumerate(bullet_list.get_list()):
             if field.collision(bullet):
                 bullet_list.delete(n)
+
+        #敵の弾と地形の当たり判定
+        for n, bullet in enumerate(bud_bullet_list.get_list()):
+            if field.collision(bullet):
+                bud_bullet_list.delete(n)
 
         #敵の体力が無くなったら消滅させる
         for n, bud in enumerate(bud_field.get_list()):
