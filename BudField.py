@@ -55,7 +55,10 @@ class BudField():
                     self.add(Floater(WIDTH, y))
                 elif type == 2:
                     #Sinker
-                    self.add(Sinker(WIDTH, y))
+                    self.add(Sinker(WIDTH, y, 'up'))
+                elif type == 3:
+                    #DownSinker
+                    self.add(Sinker(WIDTH, y, 'down'))
                 #bud_fieldの先頭の要素を最後尾へもっていく
                 temp = self.bud_field[0]
                 del self.bud_field[0]

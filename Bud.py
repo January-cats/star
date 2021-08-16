@@ -103,13 +103,14 @@ class Floater(Bud):
 
 class Sinker(Bud):
     #地面にいる敵キャラ
-    def __init__(self, x, y):
+    def __init__(self, x, y, direction):
+        #direction => 'up', 'down',
         super().__init__(x, y)
         self.name = 'Sinker'
         self.num = 2 #bud番号
         self.width = BUD_TYPE[self.num]['width']
         self.height = BUD_TYPE[self.num]['height']
-        self.image = pygame.image.load(BUD_TYPE[self.num]['img'])
+        self.image = pygame.image.load(BUD_TYPE[self.num]['img'][direction])
         self.hp = BUD_TYPE[self.num]['hp']
         self.speed = 0
 
