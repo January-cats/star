@@ -212,8 +212,11 @@ def main():
         strimage = font.render("Progress: {}".format(field.get_progress()), True, (255, 255, 255))
         SURFACE.blit(strimage, (WIDTH/2, HEIGHT+20))
         font = pygame.font.SysFont(None, 36)
-        strimage = font.render("tick: {}".format(ship.get_subweapon()), True, (255, 255, 255))
+        strimage = font.render("tick: {}".format(field.get_tick()), True, (255, 255, 255))
         SURFACE.blit(strimage, (WIDTH/2, HEIGHT+60))
+        font = pygame.font.SysFont(None, 36)
+        strimage = font.render("weapon: {}".format(ship.get_subweapon()), True, (255, 255, 255))
+        SURFACE.blit(strimage, (WIDTH*3/4, HEIGHT+20))
 
         #---------画面更新--------------
 
