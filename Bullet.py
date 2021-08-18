@@ -75,7 +75,7 @@ class DownMissile(Bullet):
     #弾クラスを継承した斜め下にすすむミサイルクラス
     def __init__(self, x, y):
         super().__init__(x, y, angle=-45)
-        self.speed = 10
+        self.speed = 20
         self.height = 6
         self.width = 15
         self.damage = 20

@@ -12,7 +12,7 @@ FIELD_FILE = "ftest.csv" #読み込む地形ファイル
 BUD_FILE = "btest.csv"
 SCROLL_SPEED = 2 #画面のスクロール速度
 FPSTICK = 20 #FRAME PER SECOND
-HITBOX = False #Trueで当たり判定可視化
+HITBOX = 1 #Trueで当たり判定可視化
 
 #画像ディレクトリのパス
 IMG_DIR = "img/"
