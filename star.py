@@ -18,6 +18,11 @@ from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK, FIELD_FILE, BU
 from Settings import SHIP_TYPE #ゲージの描画に使う
 
 class StarManager():
+    #ゲームの状態変数
+    TITLE = 1 #タイトル画面
+    PLAY = 2 #ゲームプレイ画面
+    GAME_OVER = 3 #ゲームオーバー画面
+
     #ゲームオーバーなど、ゲームの状態、および各インスタンスを管理する
     def __init__(self):
         #初期化
@@ -45,8 +50,11 @@ class StarManager():
         self.bullet_list = BulletList() #自機の弾リスト
         self.bud_bullet_list = BulletList() #敵の弾リスト
 
-    def backup(ship, bar_wrapper, stars, bullet_list, bud_bullet_list, field, bud_field):
-        # Ship, BarWrapper, stars, bullet_list, bud_bullet_list, field, bud_field, の7つを管理、バックアップできるように
+        #ゲームの状態変数
+        self.idx = StarManager.TITLE
+
+    def backup(ship, bar_wrapper, stars, bullet_list, bud_bullet_list, field, bud_field, idx):
+        # Ship, BarWrapper, stars, bullet_list, bud_bullet_list, field, bud_field, の8つを管理、バックアップできるように
         self.ship = ship
         self.bar_wrapper = bar_wrapper
         self.stars = stars
@@ -54,6 +62,7 @@ class StarManager():
         self.bud_bullet_list = bud_bullet_list
         self.field = field
         self.bud_field = bud_field
+        self.idx = idx
         return 0
 
     def read(self):
@@ -64,11 +73,13 @@ class StarManager():
             'bullet_list': self.bullet_list,
             'bud_bullet_list': self.bud_bullet_list,
             'field': self.field,
-            'bud_field': self.bud_field
+            'bud_field': self.bud_field,
+            'idx': self.idx
         }
         return d
 
 class Star():
+
     #ゲーム本体を管理するクラス
     def __init__(self):
         self.manager = StarManager()
@@ -83,11 +94,10 @@ class Star():
         bud_field = data['bud_field']
         bullet_list = data['bullet_list']
         bud_bullet_list = data['bud_bullet_list']
+        idx = data['idx']
 
         #サブウェポン変更変数
         subweapon_change = False
-        #ゲームオーバー変数
-        game_over = False
 
         keydict = {
             'w': False,
@@ -100,7 +110,24 @@ class Star():
             }
 
         while True:
-            if game_over:
+            if idx == StarManager.TITLE:
+                SURFACE.fill((0, 0, 0))
+                font = pygame.font.SysFont(None, 36)
+                strimage = font.render("Press SPACE to start", True, (255, 255, 255))
+                center_str = strimage.get_rect(center=(WIDTH/2, HEIGHT/2))
+                SURFACE.blit(strimage, center_str)
+
+                #イベントキューをかくにん
+                for event in pygame.event.get():
+                    if event.type == KEYDOWN:
+                        if event.key == K_SPACE:
+                            idx = StarManager.PLAY
+                    if event.type == QUIT:
+                        #ゲームの強制終了
+                        pygame.quit()
+                        sys.exit()
+
+            elif idx == StarManager.GAME_OVER:
                 #-----------ゲームオーバーになった時の処理--------------
                 SURFACE.fill((0, 0, 0))
                 font = pygame.font.SysFont(None, 36)
@@ -112,12 +139,13 @@ class Star():
                 for event in pygame.event.get():
                     if event.type == KEYDOWN:
                         if event.key == K_r:
-                            return
+                            return 'r'
                     if event.type == QUIT:
                         #ゲームの強制終了
                         pygame.quit()
                         sys.exit()
-            else:
+            elif idx == StarManager.PLAY:
+                #ゲームプレイ中の処理
                 #初期化
                 keydict['w'] = False
                 keydict['a'] = False
@@ -237,7 +265,7 @@ class Star():
                 #----------体力判定---------------
                 #自機の体力がなくなったらゲームオーバーにする
                 if ship.get_hp() <= 0:
-                    game_over = True
+                    idx = StarManager.GAME_OVER
 
                 #敵の体力が無くなったら消滅させる
                 for n, bud in enumerate(bud_field.get_list()):
@@ -288,7 +316,7 @@ class Star():
             pygame.display.update()
             FPSCLOCK.tick(FPSTICK) #画面更新は20fps
 
-        return
+        return 0
 
 def main():
     #init pygame
@@ -299,7 +327,9 @@ def main():
 
     while 1:
         star.__init__()
-        star.star()
+        res = star.star()
+        if res == 'r':
+            continue
 
     return 0
 
