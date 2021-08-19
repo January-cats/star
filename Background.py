@@ -8,7 +8,7 @@ from random import randint
 from Entity import Entity
 from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE
 
-class Star(Entity):
+class StarParticle(Entity):
     #背景の星のクラス
     def __init__(self):
         super().__init__()

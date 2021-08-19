@@ -46,7 +46,7 @@ class Bar():
     def disp(self):
         #バーを描画する
         outer = Rect(self.x, self.y, self.width, self.height)
-        inner = Rect(self.x, self.y, self.num, self.height)
+        inner = Rect(self.x, self.y, self.num * self.width/100, self.height)
         pygame.draw.rect(SURFACE, (255, 255, 0), inner, width=0)
         pygame.draw.rect(SURFACE, (255, 255, 255), outer, width=1)
 

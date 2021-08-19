@@ -54,6 +54,9 @@ class Ship(Entity):
         #現在のサブウェポン番号を返す
         return self.subweapon
 
+    def get_type(self):
+        return self.ship_type
+
     def set_subweapon(self, num):
         #指定した番号をsubweaponに代入する
         self.subweapon = num
