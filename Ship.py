@@ -32,7 +32,7 @@ class Ship(Entity):
         self.speed = 10 #自機の速さ
         self.image = pygame.image.load(self.ship_status['img']) #インスタンスの画像
         self.hit = False
-        self.hp = 100
+        self.hp = self.ship_status['hp']
         self.subweapon = 1 #マシンガン+サブウェポンに使う番号
 
         self._mag = self.ship_status['mag'] #マガジン設定（連射速度）の定数

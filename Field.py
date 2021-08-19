@@ -103,6 +103,10 @@ class Field():
             self.blocks[i] = [upper, lower]
         return
 
+    def do_reach_final(self):
+        #fieldの最後まで到達するとtrue
+        return self.field[self.progress + Field.WALL] == 'EOF'
+
     def scroll(self):
         #地形を左に動かす
         #読み込んだ右端まで言ったら止まるようにしたい

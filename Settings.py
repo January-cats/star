@@ -14,6 +14,9 @@ SCROLL_SPEED = 2 #画面のスクロール速度
 FPSTICK = 20 #FRAME PER SECOND
 HITBOX = 1 #Trueで当たり判定可視化
 
+#地形ダメージ
+FIELD_DAMAGE = 1
+
 #画像ディレクトリのパス
 IMG_DIR = "img/"
 #弾の画像

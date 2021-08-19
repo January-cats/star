@@ -14,7 +14,7 @@ from Field import Field, FieldPart
 from Background import StarParticle
 from BudField import BudField
 from BulletList import BulletList
-from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK, FIELD_FILE, BUD_FILE, HITBOX, FPSTICK
+from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, FPSCLOCK, FIELD_FILE, BUD_FILE, HITBOX, FPSTICK, FIELD_DAMAGE
 from Settings import SHIP_TYPE #ゲージの描画に使う
 
 class StarManager():
@@ -131,7 +131,7 @@ class Star():
                 #-----------ゲームオーバーになった時の処理--------------
                 SURFACE.fill((0, 0, 0))
                 font = pygame.font.SysFont(None, 36)
-                strimage = font.render("Game Over (Press r to restart)", True, (255, 255, 255))
+                strimage = font.render("Game Over (Press r to return title)", True, (255, 255, 255))
                 center_str = strimage.get_rect(center=(WIDTH/2, HEIGHT/2))
                 SURFACE.blit(strimage, center_str)
 
@@ -254,13 +254,13 @@ class Star():
                 #敵と自機の当たり判定
                 for bud in bud_field.get_list():
                     if ship.collision(bud):
-                        ship.do_damage(1)
+                        ship.do_damage(FIELD_DAMAGE)
                         ship.hit_with(bud)
 
                 #地形と自機の当たり判定
                 if field.collision(ship):
                     ship.hit_with()
-                    ship.do_damage(1)
+                    ship.do_damage(FIELD_DAMAGE)
 
                 #----------体力判定---------------
                 #自機の体力がなくなったらゲームオーバーにする
@@ -309,6 +309,9 @@ class Star():
                 font = pygame.font.SysFont(None, 36)
                 strimage = font.render("weapon: {}".format(ship.get_subweapon()), True, (255, 255, 255))
                 SURFACE.blit(strimage, (WIDTH*3/4, HEIGHT+20))
+                font = pygame.font.SysFont(None, 36)
+                strimage = font.render("final: {}".format(field.do_reach_final()), True, (255, 255, 255))
+                SURFACE.blit(strimage, (WIDTH*3/4, HEIGHT+60))
 
             #---------画面更新--------------
 
