@@ -12,7 +12,7 @@ FIELD_FILE = "ftest.csv" #読み込む地形ファイル
 BUD_FILE = "btest.csv"
 SCROLL_SPEED = 2 #画面のスクロール速度
 FPSTICK = 20 #FRAME PER SECOND
-HITBOX = 1 #Trueで当たり判定可視化
+HITBOX = 0 #Trueで当たり判定可視化
 
 #地形ダメージ
 FIELD_DAMAGE = 1
@@ -50,20 +50,35 @@ FLOATER = {
     'height': 40,
     'img': IMG_DIR + "floater.png"
 }
-SINKER = {
+SINKER_UP = {
     #敵キャラクター
     'hp': 150,
     'width': 50,
     'height': 40,
-    'img': {
-        'up': IMG_DIR + "sinker.png", #ウエムキ
-        'down': IMG_DIR + "down_sinker.png" #下向き
-    },
+    'img': IMG_DIR + "sinker.png", #ウエムキ
+    'mag': 40, #弾を出す感覚
+}
+SINKER_DOWN = {
+    #敵キャラクター
+    'hp': 150,
+    'width': 50,
+    'height': 40,
+    'img': IMG_DIR + "down_sinker.png", #下向き,
+    'mag': 40, #弾を出す感覚
+}
+BIG_BUD = {
+    #敵キャラクター
+    'hp': 500,
+    'width': 200,
+    'height': 132,
+    'img': IMG_DIR + "BigBud_l.png",
     'mag': 40, #弾を出す感覚
 }
 BUD_TYPE={
     1: FLOATER,
-    2: SINKER,
+    2: SINKER_UP,
+    3: SINKER_DOWN,
+    4: BIG_BUD,
 }
 
 

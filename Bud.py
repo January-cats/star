@@ -7,7 +7,7 @@ from pygame.locals import Rect
 from Entity import Entity
 from Bullet import SinkerBullet
 from Settings import WIDTH, HEIGHT, INFO_AREA, SURFACE, SCROLL_SPEED
-from Settings import BUD_TYPE, FLOATER, SINKER
+from Settings import BUD_TYPE
 
 import math # get_angle
 
@@ -103,14 +103,14 @@ class Floater(Bud):
 
 class Sinker(Bud):
     #地面にいる敵キャラ
-    def __init__(self, x, y, direction):
+    def __init__(self, x, y):
         #direction => 'up', 'down',
         super().__init__(x, y)
         self.name = 'Sinker'
         self.num = 2 #bud番号
         self.width = BUD_TYPE[self.num]['width']
         self.height = BUD_TYPE[self.num]['height']
-        self.image = pygame.image.load(BUD_TYPE[self.num]['img'][direction])
+        self.image = pygame.image.load(BUD_TYPE[self.num]['img'])
         self.hp = BUD_TYPE[self.num]['hp']
         self.speed = 0
 
@@ -119,6 +119,38 @@ class Sinker(Bud):
 
     def move(self, field):
         self.x -= SCROLL_SPEED #画面スクロールに付随して動かす
+
+    def shoot(self, ship):
+        #弾のクラスを返す、shipに向かって射撃
+        if self.magazine >= self.mag():
+            self.magazine -= self.mag()
+            angle = self.get_angle(ship)
+            bul = SinkerBullet(self.x + 0.5 * self.width, self.y + 0.5 * self.height, angle)
+            return bul
+        return None
+
+class SinkerDown(Sinker):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.num = 3
+        self.image = pygame.image.load(BUD_TYPE[self.num]['img'])
+
+class BigBud(Bud):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.name = 'BigBud'
+        self.num = 4 #bud番号
+        self.width = BUD_TYPE[self.num]['width']
+        self.height = BUD_TYPE[self.num]['height']
+        self.image = pygame.image.load(BUD_TYPE[self.num]['img'])
+        self.hp = BUD_TYPE[self.num]['hp']
+        self.speed = 5
+
+        self._mag = BUD_TYPE[self.num]['mag'] #射撃する感覚の設定
+        self.magazine = 0 #打つ間隔のための変数
+
+    def move(self, field):
+        self.x -= SCROLL_SPEED+2 #画面スクロールに付随して動かす
 
     def shoot(self, ship):
         #弾のクラスを返す、shipに向かって射撃

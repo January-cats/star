@@ -6,7 +6,7 @@ import csv
 
 from Entity import Entity
 from Settings import WIDTH, HEIGHT
-from Bud import Floater, Sinker
+from Bud import Floater, Sinker, SinkerDown, BigBud
 
 class BudField():
     #bud全体を管理するクラス
@@ -55,10 +55,12 @@ class BudField():
                     self.add(Floater(WIDTH, y))
                 elif type == 2:
                     #Sinker
-                    self.add(Sinker(WIDTH, y, 'up'))
+                    self.add(Sinker(WIDTH, y))
                 elif type == 3:
                     #DownSinker
-                    self.add(Sinker(WIDTH, y, 'down'))
+                    self.add(SinkerDown(WIDTH, y))
+                elif type == 4:
+                    self.add(BigBud(WIDTH, y))
                 #bud_fieldの先頭の要素を最後尾へもっていく
                 temp = self.bud_field[0]
                 del self.bud_field[0]
