@@ -127,6 +127,7 @@ class Star():
                         pygame.quit()
                         sys.exit()
 
+
             elif idx == StarManager.GAME_OVER:
                 #-----------ゲームオーバーになった時の処理--------------
                 SURFACE.fill((0, 0, 0))
@@ -144,6 +145,8 @@ class Star():
                         #ゲームの強制終了
                         pygame.quit()
                         sys.exit()
+
+
             elif idx == StarManager.PLAY:
                 #ゲームプレイ中の処理
                 #初期化
@@ -200,9 +203,11 @@ class Star():
 
                 #budの射撃
                 for bud in bud_field.get_list():
-                    bul = bud.shoot(ship)
-                    if bul:
-                        bud_bullet_list.add(bul)
+                    buls = bud.shoot(ship)
+                    #リストで帰ってくるので一つずつ処理する
+                    if buls:
+                        for bul in buls:
+                            bud_bullet_list.add(bul)
                     bud.reload()
 
                 #星の移動
@@ -218,6 +223,9 @@ class Star():
 
                 #地形の移動
                 field.scroll()
+                #最後へ到達した時の処理
+                #if field.do_reach_final():
+                #    bud_field.spawn_boss()
 
                 #budの出現
                 if field.get_tick() == 0:
@@ -284,6 +292,7 @@ class Star():
 
                 #ゲージと画面の境界線
 
+                #背景の星の描画
                 for star in stars:
                     star.disp()
                 bud_field.disp_all(hitbox=HITBOX)
@@ -299,7 +308,7 @@ class Star():
                 strimage = font.render("Bud: {}".format(s), True, (255, 255, 255))
                 SURFACE.blit(strimage, (400, 20))
 
-                #progressとtickを表示
+                #progressとtickを表示（一時的）
                 font = pygame.font.SysFont(None, 36)
                 strimage = font.render("Progress: {}".format(field.get_progress()), True, (255, 255, 255))
                 SURFACE.blit(strimage, (WIDTH/2, HEIGHT+20))

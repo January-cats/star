@@ -11,7 +11,7 @@ INFO_AREA = 100 #ゲージ類を表示するエリア
 FIELD_FILE = "ftest.csv" #読み込む地形ファイル
 BUD_FILE = "btest.csv"
 SCROLL_SPEED = 2 #画面のスクロール速度
-FPSTICK = 20 #FRAME PER SECOND
+FPSTICK = 30 #FRAME PER SECOND
 HITBOX = 0 #Trueで当たり判定可視化
 
 #地形ダメージ
@@ -28,7 +28,7 @@ IMG_DOWN_MISSILE = IMG_DIR + "downmissile.png"
 SHIP_TYPE = {
     'TYPE1': {
         #自機タイプ1
-        'hp': 100,
+        'hp': 10000,
         'width': 45,
         'height': 25,
         'img': IMG_DIR + "fighter4.png",
@@ -56,7 +56,7 @@ SINKER_UP = {
     'width': 50,
     'height': 40,
     'img': IMG_DIR + "sinker.png", #ウエムキ
-    'mag': 40, #弾を出す感覚
+    'mag': 60, #弾を出す感覚
 }
 SINKER_DOWN = {
     #敵キャラクター
@@ -64,7 +64,7 @@ SINKER_DOWN = {
     'width': 50,
     'height': 40,
     'img': IMG_DIR + "down_sinker.png", #下向き,
-    'mag': 40, #弾を出す感覚
+    'mag': 60, #弾を出す感覚
 }
 BIG_BUD = {
     #敵キャラクター
@@ -72,7 +72,7 @@ BIG_BUD = {
     'width': 200,
     'height': 132,
     'img': IMG_DIR + "BigBud_l.png",
-    'mag': 40, #弾を出す感覚
+    'mag': 60, #弾を出す感覚
 }
 BUD_TYPE={
     1: FLOATER,

@@ -113,6 +113,7 @@ class Field():
         self.tick += 1 #進んだフレームを1増やす
         if self.tick == 1023:
             self.tick = 1 # オーバーフロー回避
+
         if self.field[self.progress + Field.WALL] != 'EOF': #表示されている地形の一つ右を確認
             #地形の終わりじゃないなら左に動かす
             for block in self.blocks:

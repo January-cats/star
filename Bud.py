@@ -126,7 +126,7 @@ class Sinker(Bud):
             self.magazine -= self.mag()
             angle = self.get_angle(ship)
             bul = SinkerBullet(self.x + 0.5 * self.width, self.y + 0.5 * self.height, angle)
-            return bul
+            return [bul,]
         return None
 
 class SinkerDown(Sinker):
@@ -145,18 +145,28 @@ class BigBud(Bud):
         self.image = pygame.image.load(BUD_TYPE[self.num]['img'])
         self.hp = BUD_TYPE[self.num]['hp']
         self.speed = 5
+        self.firephase = 0 #射撃段階
 
         self._mag = BUD_TYPE[self.num]['mag'] #射撃する感覚の設定
         self.magazine = 0 #打つ間隔のための変数
 
     def move(self, field):
-        self.x -= SCROLL_SPEED+2 #画面スクロールに付随して動かす
+        self.x -= SCROLL_SPEED+1 #画面スクロールに付随して動かす
 
     def shoot(self, ship):
         #弾のクラスを返す、shipに向かって射撃
         if self.magazine >= self.mag():
             self.magazine -= self.mag()
-            angle = self.get_angle(ship)
-            bul = SinkerBullet(self.x + 0.5 * self.width, self.y + 0.5 * self.height, angle)
-            return bul
+            buls = []
+            angle = 0
+            if self.firephase == 0:
+                self.magazine = 20
+                self.firephase = 1
+            elif self.firephase == 1:
+                self.firephase = 0
+            for i in range(8): # 0..7
+                angle += 45.0
+                bul = SinkerBullet(self.x + 0.41 * self.width, self.y + 0.31 * self.height, angle)
+                buls.append(bul)
+            return buls
         return None
